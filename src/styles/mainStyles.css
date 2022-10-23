@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Karla&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Karla&display=swap');
+
 main{
     background-color: #F5F5F5;
     height: 400px;
@@ -15,4 +18,40 @@ main{
     grid-template: auto auto / repeat(5, 1fr);
     gap: 20px;
     cursor: pointer;
+    margin-bottom: 40px;
+}
+
+.title{
+    font-size: 40px;
+    margin: 0;
+    user-select: none;
+}
+
+.instructions{
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-top: 0;
+    text-align: center;
+    user-select: none;
+}
+
+.roll-dice{
+    height: 50px;
+    width: 120px;
+    border: none;
+    border-radius: 6px;
+    background-color: #5035FF;
+    color: white;
+    font-size: 1.2rem;
+    font-family: 'Karla', sans-serif;
+    cursor: pointer;
+    user-select: none;
+}
+
+.roll-dice:focus{
+    outline: none;
+}
+
+.roll-dice:active{
+    box-shadow: inset 5px 5px 10px -3px rgba(0, 0, 0, 0.7) ;
 }

@@ -1,12 +1,30 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import Die from "./components/Die.js";
 import './styles/mainStyles.css'
 import {nanoid} from "nanoid" 
+import Confetti from 'react-confetti'
 
 function App() {
   //Tạo state chứa các object dice với hàm allNewDice
   const [dice, setDice] = useState(allNewDice);
+
+  const [tenzies, setTenzies] = useState(false);
+
+
+  useEffect(() => {
+    const allHeld =  dice.every(die => die.isHeld)
+    const firstValue = dice[0].value
+    const allSameValue = dice.every(die => die.value === firstValue)
+    if(allHeld && allSameValue){
+      setTenzies(true)
+    }
+
+    // setDice(oldDice => oldDice.every(die => {
+    //   die.isHeld && die.value === oldDice[0] ? setTenzies(true) : setTenzies(tenzies)
+    // }))
+
+  }, [dice]) 
 
   //gán các giá trị cho object dice
   function generateNewDice(){
@@ -28,11 +46,17 @@ function App() {
   } 
   //roll các dice có giá trị isHeld: false
   function rollDice(){
-    setDice(oldDice => oldDice.map(die =>{
-      return die.isHeld? 
-      die : 
-      generateNewDice()
-    }))
+    if(!tenzies){
+      setDice(oldDice => oldDice.map(die =>{
+        return die.isHeld? 
+        die : 
+        generateNewDice()
+      }))
+    }
+    else{
+      setTenzies(!tenzies)
+      setDice(allNewDice())
+    }
   }
   //Click vào die có id được khai báo ở parameter bằng với die.id trong dice thì
   //gán giá trị isHeld của object đó bằng !isHeld, ngược lại thì giữ nguyên obj
@@ -49,10 +73,13 @@ function App() {
   })
   return (
     <main>
-        <div className="dice-container">
-          {diceElement}
-        </div>
-        <button className="roll-dice" onClick={rollDice}>Roll</button>
+      {tenzies && <Confetti/>}
+      <h1 className="title">Tenzies</h1>
+      <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
+      <div className="dice-container">
+        {diceElement}
+      </div>
+      <button className="roll-dice" onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
     </main>
   );
 }
